@@ -11,19 +11,18 @@
  */
 class Solution {
 public:
-int height(TreeNode *root){
+pair<int,int> help(TreeNode*root){
     if (root==nullptr){
-       return 0;
+        return make_pair(0,0);
     }
-   return 1+max(height(root->left),height(root->right));
-   
+    pair<int,int> LI=help(root->left);
+     pair<int,int>  RI=help(root->right);
+    int currD= RI.second +LI.second;
+    int FH=max(LI.second,RI.second)+1;
+    int FD=max(currD,max(LI.first,RI.first));
+    return make_pair(FD,FH);
 }
     int diameterOfBinaryTree(TreeNode* root) {
-        if(root==nullptr) return 0;
-         int currD=height(root->left)+height(root->right);
-    int LD=diameterOfBinaryTree(root->left);
-    int RD=diameterOfBinaryTree(root->right);
-    return max(currD,max(LD,RD));
-        
+        return help(root).first;
     }
 };
