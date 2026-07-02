@@ -10,11 +10,11 @@ public:
             ans.push_back(pq.top().first);
        
         for(int j=k;j<nums.size();j++){
-             pq.push({nums[j],j});
+           
             while(!pq.empty() && pq.top().second<=(j-k)){
                 pq.pop();
             }
-                
+                  pq.push({nums[j],j});
             ans.push_back(pq.top().first);
        
         }
