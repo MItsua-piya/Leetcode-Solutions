@@ -1,47 +1,51 @@
 class Graph{
-    int v;
-    list<int>*l;
-    public:
-    Graph(int v){
-        this->v=v;
-        l=new list<int>[v+1];
-    }
-    void addEdge(int u,int v){
-        l[u].push_back(v);
-          l[v].push_back(u);
-    }
+int v;
+list<int>*l;
+public:
+Graph(int v){
+this->v=v;
+l=new list<int>[v];
+}
+void addEdge(int u,int v){
+    l[u].push_back(v);
+     l[v].push_back(u);
+}
+bool bfs(int src,int des){
+    vector<bool>vis(v,false);
+    vis[src]=true;
+    queue<int>q;
+    q.push(src);
+    while(!q.empty()){
+        int curr=q.front();
+        q.pop();
+         if (curr == des)   
+            return true;
 
-  
-  bool dfs(int src, int dest, vector<bool>& vis) {
-    if (src == dest)
-        return true;
-
-    vis[src] = true;
-
-    for (int nbr : l[src]) {
-        if (!vis[nbr]) {
-            if (dfs(nbr, dest, vis))
-                return true;
+        for(auto & c:l[curr]){
+            if(!vis[c]){
+                vis[c]=true;
+                q.push(c);
+            }
+           
         }
     }
-
     return false;
+
 }
 };
+
+
 class Solution {
 public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
-       Graph g(edges.size() + 1);
-
-for (auto &e : edges) {
-
-    vector<bool> vis(edges.size() + 1, false);
-
-    if (g.dfs(e[0], e[1], vis))
-        return {e[0],e[1]};
-
-    g.addEdge(e[0], e[1]);
-}
-return {};
+        Graph g(edges.size()+1);
+        for(auto &n:edges){
+           
+            if(g.bfs(n[0],n[1])){
+                return n;
+            }
+ g.addEdge(n[0],n[1]);
+        }
+        return {};
     }
 };
