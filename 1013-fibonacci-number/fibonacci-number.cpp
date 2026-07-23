@@ -1,19 +1,15 @@
 class Solution {
 public:
-    int help(int n,vector<int>&dp) {
-          if (n == 0)
-            return 0;
-        if (n == 1)
-            return 1;
-        if(dp[n]!=-1){
-            return dp[n] ;
-        }
-        return dp[n]=help(n-1,dp)+help(n-2,dp);
-        
-    }
     int fib(int n) {
-vector<int>dp(n+1,-1);
-return help(n,dp);
-;
+        if(n==0) return 0;
+        if(n==2) return 1;
+        int p1=0;
+        int p2=1;
+        for(int i=2;i<=n;i++){
+            int curr=p1+p2;
+            p1=p2;
+            p2=curr;
+        }
+        return p2;
     }
 };
