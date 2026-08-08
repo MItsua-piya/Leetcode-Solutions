@@ -1,31 +1,19 @@
 class Solution {
 public:
-int help(vector<int>& coins,int n, int amount,vector<vector<int>>&dp){
-   if(amount == 0)
-    return 1;
+int help(int amount,vector<int>&coins,int i,int n,vector<vector<int>>&dp){
+if(i==n  )return 0;
+if(amount ==0) return 1;
+if(dp[i][amount]!=-1) return dp[i][amount];
+int take=0;
 
-if(n < 0)
-    return 0;  
-    if(dp[n][amount]!=-1) return dp[n][amount];
-    // int currcoin=coins[n];
-
-     int notTake = help(coins, n - 1, amount, dp);
-
-        // Take current coin (unlimited times)
-        int take = 0;
-        if (coins[n] <= amount) {
-            take =  help(coins, n, amount - coins[n], dp);
-        }
-
-        return dp[n][amount] = take+ notTake;
+if(coins[i]<=amount){
+    take=help(amount-coins[i],coins,i,n,dp);
+}
+int nottake=help(amount,coins,i+1,n,dp);
+return dp[i][amount]=take+nottake;
 }
     int change(int amount, vector<int>& coins) {
-       vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
-    //  if(coins.size()==1 && coins[0]<amount){
-    //     return -1;
-    //  }
-     
-     int ans= help(coins,coins.size()-1,amount,dp);
-    return ans; 
+        vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
+        return help(amount,coins,0,coins.size(),dp);
     }
 };
